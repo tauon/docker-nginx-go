@@ -1,0 +1,31 @@
+version: '3'
+services:
+  api1:
+      build: ./api
+      tty: true
+      volumes:
+        - './api:/api'
+      command: /go/bin/api -instance 1
+  api2:
+      build: ./api
+      tty: true
+      volumes:
+        - './api:/api'
+      command: /go/bin/api -instance 2
+  api3:
+      build: ./api
+      tty: true
+      volumes:
+        - './api:/api'
+      command: /go/bin/api -instance 3
+  nginx:
+      build: ./nginx
+      tty: true
+      links:
+          - api1
+          - api2
+          - api3
+      ports:
+          - '8080:8080'
+volumes:
+  api:
